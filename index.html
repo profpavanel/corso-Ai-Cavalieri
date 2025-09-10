@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione di Grafica: I Volantini</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+        .card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+        .playable-media {
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem;
+        }
+        .playable-media:before {
+            content: "▶";
+            font-size: 3rem;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        .playable-media:hover:before {
+            opacity: 1;
+        }
+        /* Custom styles for the dropdown menu */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .dropdown-content a {
+            color: #1f2937;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #f59e0b;
+            color: white;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+<body class="p-6">
+
+    <div class="max-w-6xl mx-auto space-y-12">
+        <header class="text-center space-y-2">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-orange-800">Lezione di Grafica: I Volantini</h1>
+            <p class="text-lg text-gray-600">Esploriamo insieme gli aspetti fondamentali, artistici, tecnici ed educativi della creazione di un volantino efficace. Benvenuti a questa esperienza di apprendimento pratico!</p>
+        </header>
+
+        <!-- Dropdown Menu -->
+        <div class="flex justify-center my-8">
+            <div class="dropdown">
+                <button class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-colors">
+                    Scegli un argomento ↓
+                </button>
+                <div class="dropdown-content">
+                    <a href="#fondamentali" class="hover:bg-orange-500 hover:text-white">Aspetti Fondamentali</a>
+                    <a href="#artistici" class="hover:bg-orange-500 hover:text-white">Aspetti Artistici</a>
+                    <a href="#tecnici" class="hover:bg-orange-500 hover:text-white">Aspetti Tecnici</a>
+                    <a href="#educativi" class="hover:bg-orange-500 hover:text-white">Aspetti Educativi</a>
+                    <a href="#laboratorio" class="hover:bg-orange-500 hover:text-white">Laboratorio</a>
+                </div>
+            </div>
+        </div>
+
+        <section id="contenuti-didattici">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 border-b-2 border-orange-400 pb-2">Contenuti Essenziali</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                <!-- Scheda Aspetti Fondamentali -->
+                <div id="fondamentali" class="card bg-white p-6 rounded-xl space-y-4">
+                    <h3 class="text-xl font-bold text-orange-700">Aspetti Fondamentali</h3>
+                    <p class="text-gray-600">
+                        Cosa rende un volantino efficace? Scopri i principi base della comunicazione visiva, come la gerarchia delle informazioni, il pubblico di riferimento e l'obiettivo del messaggio.
+                    </p>
+                    <div class="playable-media bg-gray-300 w-full h-48 rounded-xl flex items-center justify-center" data-type="video" data-src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" onclick="openModal(this)">
+                        <p class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-bold text-center">Clicca per il Video<br>Aspetti Fondamentali</p>
+                    </div>
+                </div>
+
+                <!-- Scheda Aspetti Artistici -->
+                <div id="artistici" class="card bg-white p-6 rounded-xl space-y-4">
+                    <h3 class="text-xl font-bold text-orange-700">Aspetti Artistici</h3>
+                    <p class="text-gray-600">
+                        Il design e la creatività sono al centro di ogni progetto. Esplora l'uso del colore, della tipografia, delle immagini e della composizione per catturare l'attenzione e comunicare con stile.
+                    </p>
+                    <div class="playable-media bg-gray-300 w-full h-48 rounded-xl flex items-center justify-center" data-type="image" data-src="https://placehold.co/600x400/0f2b4c/ffffff?text=Esempio+Artistico" onclick="openModal(this)">
+                        <p class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-bold text-center">Clicca per la Foto<br>Esempio Artistico</p>
+                    </div>
+                </div>
+
+                <!-- Scheda Aspetti Tecnici -->
+                <div id="tecnici" class="card bg-white p-6 rounded-xl space-y-4">
+                    <h3 class="text-xl font-bold text-orange-700">Aspetti Tecnici</h3>
+                    <p class="text-gray-600">
+                        Un bel design non basta se non è stampabile. Impara le specifiche tecniche come il formato, la risoluzione (DPI), i margini di sicurezza e la gestione dei colori (RGB vs CMYK).
+                    </p>
+                    <div class="playable-media bg-gray-300 w-full h-48 rounded-xl flex items-center justify-center" data-type="video" data-src="https://www.youtube.com/embed/p10jBw5aE8E?autoplay=1" onclick="openModal(this)">
+                        <p class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-bold text-center">Clicca per il Video<br>Aspetti Tecnici</p>
+                    </div>
+                </div>
+                
+                <!-- Scheda Aspetti Educativi -->
+                <div id="educativi" class="card bg-white p-6 rounded-xl space-y-4">
+                    <h3 class="text-xl font-bold text-orange-700">Aspetti Educativi</h3>
+                    <p class="text-gray-600">
+                        Oltre a comunicare un prodotto, il volantino è uno strumento per educare il pubblico. Esamina l'importanza dell'etica, dell'inclusività e del design sostenibile.
+                    </p>
+                    <div class="playable-media bg-gray-300 w-full h-48 rounded-xl flex items-center justify-center" data-type="image" data-src="https://placehold.co/600x400/6f8194/ffffff?text=Design+Etico" onclick="openModal(this)">
+                        <p class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-bold text-center">Clicca per la Foto<br>Design Educativo</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="laboratorio" class="bg-orange-50 p-8 rounded-xl space-y-6">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 border-b-2 border-orange-400 pb-2">Esercitazione di Laboratorio</h2>
+            <p class="text-gray-600">
+                Ora tocca a voi! L'obiettivo è creare un volantino per un evento scolastico. Seguite le istruzioni e applicate ciò che avete imparato.
+            </p>
+            <div class="p-6 bg-orange-100 rounded-lg space-y-4">
+                <h3 class="text-xl font-bold text-orange-800">Progetto: "Open Day" dell'Istituto</h3>
+                <ol class="list-decimal list-inside text-gray-700 space-y-2">
+                    <li><span class="font-semibold">Briefing:</span> Progettate un volantino promozionale per un "Open Day" del vostro istituto professionale. Dovrete comunicare data, orario, indirizzo e una sintesi delle materie insegnate.</li>
+                    <li><span class="font-semibold">Target:</span> Il vostro pubblico sono gli studenti delle scuole medie e le loro famiglie. Il design deve essere accattivante, moderno e invitante.</li>
+                    <li><span class="font-semibold">Strumenti:</span> Potete utilizzare software di grafica come Adobe Photoshop, Illustrator o programmi gratuiti come GIMP o Canva.</li>
+                    <li><span class="font-semibold">Consegna:</span> Il volantino deve essere in formato A5 (14,8 x 21 cm), con un'immagine ad alta risoluzione (almeno 300 DPI) e un testo ben leggibile.</li>
+                </ol>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Modal per la visualizzazione dei contenuti -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+        <div class="relative bg-white p-6 rounded-lg max-w-4xl w-full">
+            <button class="absolute top-2 right-4 text-gray-500 hover:text-gray-800 text-3xl font-bold" onclick="closeModal()">
+                &times;
+            </button>
+            <div id="modal-content" class="w-full">
+                <!-- Il contenuto (immagine o video) verrà inserito qui dal JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funzioni per gestire il modal
+        const modal = document.getElementById('modal');
+        const modalContent = document.getElementById('modal-content');
+
+        function openModal(element) {
+            const type = element.dataset.type;
+            const src = element.dataset.src;
+
+            // Rimuove qualsiasi contenuto precedente
+            modalContent.innerHTML = '';
+
+            if (type === 'video') {
+                modalContent.innerHTML = `
+                    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
+                        <iframe src="${src}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                    </div>
+                `;
+            } else if (type === 'image') {
+                modalContent.innerHTML = `
+                    <img src="${src}" alt="Contenuto" class="w-full h-auto rounded-lg">
+                `;
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            // Interrompe il video se sta riproducendo
+            const iframe = modalContent.querySelector('iframe');
+            if (iframe) {
+                iframe.src = '';
+            }
+            modal.classList.add('hidden');
+        }
+
+        // Chiude il modal cliccando al di fuori del contenuto
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+
+</body>
+</html>
