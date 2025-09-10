@@ -25,8 +25,24 @@
             position: relative;
             overflow: hidden;
             border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .playable-media:before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.4);
+            transition: background 0.3s;
+        }
+        .playable-media:hover:before {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .playable-media:after {
             content: "▶";
             font-size: 3rem;
             color: white;
@@ -37,10 +53,9 @@
             opacity: 0.8;
             transition: opacity 0.3s;
         }
-        .playable-media:hover:before {
+        .playable-media:hover:after {
             opacity: 1;
         }
-        /* Custom styles for the dropdown menu */
         .dropdown {
             position: relative;
             display: inline-block;
@@ -73,15 +88,15 @@
 <body class="p-6">
 
     <div class="max-w-6xl mx-auto space-y-12">
-        <header class="text-center space-y-2">
-            <h1 class="text-4xl sm:text-5xl font-extrabold text-orange-800">Lezione di Grafica: I Volantini</h1>
+        <header class="text-center space-y-2 pb-4 pt-2 rounded-xl">
+            <h1 class="text-4xl sm:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-red-600">Lezione di Grafica: I Volantini</h1>
             <p class="text-lg text-gray-600">Esploriamo insieme gli aspetti fondamentali, artistici, tecnici ed educativi della creazione di un volantino efficace. Benvenuti a questa esperienza di apprendimento pratico!</p>
         </header>
 
         <!-- Dropdown Menu -->
         <div class="flex justify-center my-8">
             <div class="dropdown">
-                <button class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-colors">
+                <button class="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-colors">
                     Scegli un argomento ↓
                 </button>
                 <div class="dropdown-content">
@@ -89,78 +104,126 @@
                     <a href="#artistici" class="hover:bg-orange-500 hover:text-white">Aspetti Artistici</a>
                     <a href="#tecnici" class="hover:bg-orange-500 hover:text-white">Aspetti Tecnici</a>
                     <a href="#educativi" class="hover:bg-orange-500 hover:text-white">Aspetti Educativi</a>
-                    <a href="#laboratorio" class="hover:bg-orange-500 hover:text-white">Laboratorio</a>
+                    <a href="#laboratorio-base" class="hover:bg-orange-500 hover:text-white">Laboratorio (Base)</a>
+                    <a href="#laboratorio-avanzato" class="hover:bg-orange-500 hover:text-white">Laboratorio (Avanzato)</a>
                 </div>
             </div>
         </div>
 
         <section id="contenuti-didattici">
             <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 border-b-2 border-orange-400 pb-2">Contenuti Essenziali</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Layout a due colonne per ogni sezione -->
+            <div class="space-y-6">
 
                 <!-- Scheda Aspetti Fondamentali -->
-                <div id="fondamentali" class="card bg-white p-6 rounded-xl space-y-4">
-                    <h3 class="text-xl font-bold text-orange-700">Aspetti Fondamentali</h3>
-                    <p class="text-gray-600">
-                        Cosa rende un volantino efficace? Scopri i principi base della comunicazione visiva, come la gerarchia delle informazioni, il pubblico di riferimento e l'obiettivo del messaggio.
-                    </p>
-                    <div class="playable-media bg-gray-300 w-full h-48 rounded-xl flex items-center justify-center" data-type="video" data-src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" onclick="openModal(this)">
-                        <p class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-bold text-center">Clicca per il Video<br>Aspetti Fondamentali</p>
+                <div id="fondamentali" class="card bg-white p-6 rounded-xl">
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <div class="md:w-1/2 space-y-4">
+                            <h3 class="text-xl font-bold text-orange-700">Aspetti Fondamentali</h3>
+                            <p class="text-gray-600">
+                                Cosa rende un volantino efficace? Scopri i principi base della comunicazione visiva, come la gerarchia delle informazioni, il pubblico di riferimento e l'obiettivo del messaggio.
+                            </p>
+                        </div>
+                        <div class="md:w-1/2">
+                            <div class="playable-media bg-gray-300 w-full h-48 rounded-xl flex items-center justify-center" data-type="video" data-src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" onclick="openModal(this)">
+                                <img src="https://placehold.co/600x400/FF8C00/ffffff?text=▶" alt="Copertina Video Aspetti Fondamentali" class="w-full h-full object-cover rounded-lg">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Scheda Aspetti Artistici -->
-                <div id="artistici" class="card bg-white p-6 rounded-xl space-y-4">
-                    <h3 class="text-xl font-bold text-orange-700">Aspetti Artistici</h3>
-                    <p class="text-gray-600">
-                        Il design e la creatività sono al centro di ogni progetto. Esplora l'uso del colore, della tipografia, delle immagini e della composizione per catturare l'attenzione e comunicare con stile.
-                    </p>
-                    <div class="playable-media bg-gray-300 w-full h-48 rounded-xl flex items-center justify-center" data-type="image" data-src="https://placehold.co/600x400/0f2b4c/ffffff?text=Esempio+Artistico" onclick="openModal(this)">
-                        <p class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-bold text-center">Clicca per la Foto<br>Esempio Artistico</p>
+                <div id="artistici" class="card bg-white p-6 rounded-xl">
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <div class="md:w-1/2 space-y-4">
+                            <h3 class="text-xl font-bold text-orange-700">Aspetti Artistici</h3>
+                            <p class="text-gray-600">
+                                Il design e la creatività sono al centro di ogni progetto. Esplora l'uso del colore, della tipografia, delle immagini e della composizione per catturare l'attenzione e comunicare con stile.
+                            </p>
+                        </div>
+                        <div class="md:w-1/2">
+                            <div class="playable-media bg-gray-300 w-full h-48 rounded-xl flex items-center justify-center" data-type="image" data-src="https://placehold.co/600x400/0f2b4c/ffffff?text=Esempio+Artistico" onclick="openModal(this)">
+                                <img src="https://placehold.co/600x400/DC143C/ffffff?text=🎨" alt="Copertina Foto Aspetti Artistici" class="w-full h-full object-cover rounded-lg">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Scheda Aspetti Tecnici -->
-                <div id="tecnici" class="card bg-white p-6 rounded-xl space-y-4">
-                    <h3 class="text-xl font-bold text-orange-700">Aspetti Tecnici</h3>
-                    <p class="text-gray-600">
-                        Un bel design non basta se non è stampabile. Impara le specifiche tecniche come il formato, la risoluzione (DPI), i margini di sicurezza e la gestione dei colori (RGB vs CMYK).
-                    </p>
-                    <div class="playable-media bg-gray-300 w-full h-48 rounded-xl flex items-center justify-center" data-type="video" data-src="https://www.youtube.com/embed/p10jBw5aE8E?autoplay=1" onclick="openModal(this)">
-                        <p class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-bold text-center">Clicca per il Video<br>Aspetti Tecnici</p>
+                <div id="tecnici" class="card bg-white p-6 rounded-xl">
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <div class="md:w-1/2 space-y-4">
+                            <h3 class="text-xl font-bold text-orange-700">Aspetti Tecnici</h3>
+                            <p class="text-gray-600">
+                                Un bel design non basta se non è stampabile. Impara le specifiche tecniche come il formato, la risoluzione (DPI), i margini di sicurezza e la gestione dei colori (RGB vs CMYK).
+                            </p>
+                        </div>
+                        <div class="md:w-1/2">
+                            <div class="playable-media bg-gray-300 w-full h-48 rounded-xl flex items-center justify-center" data-type="video" data-src="https://www.youtube.com/embed/p10jBw5aE8E?autoplay=1" onclick="openModal(this)">
+                                <img src="https://placehold.co/600x400/FF8C00/ffffff?text=▶" alt="Copertina Video Aspetti Tecnici" class="w-full h-full object-cover rounded-lg">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
                 <!-- Scheda Aspetti Educativi -->
-                <div id="educativi" class="card bg-white p-6 rounded-xl space-y-4">
-                    <h3 class="text-xl font-bold text-orange-700">Aspetti Educativi</h3>
+                <div id="educativi" class="card bg-white p-6 rounded-xl">
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <div class="md:w-1/2 space-y-4">
+                            <h3 class="text-xl font-bold text-orange-700">Aspetti Educativi</h3>
+                            <p class="text-gray-600">
+                                Oltre a comunicare un prodotto, il volantino è uno strumento per educare il pubblico. Esamina l'importanza dell'etica, dell'inclusività e del design sostenibile.
+                            </p>
+                        </div>
+                        <div class="md:w-1/2">
+                            <div class="playable-media bg-gray-300 w-full h-48 rounded-xl flex items-center justify-center" data-type="image" data-src="https://placehold.co/600x400/6f8194/ffffff?text=Design+Etico" onclick="openModal(this)">
+                                <img src="https://placehold.co/600x400/DC143C/ffffff?text=🌱" alt="Copertina Foto Aspetti Educativi" class="w-full h-full object-cover rounded-lg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="laboratori">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 border-b-2 border-orange-400 pb-2">Esercitazioni di Laboratorio</h2>
+            <!-- Contenitore flex per le due colonne -->
+            <div class="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0">
+                <!-- Laboratorio Base -->
+                <div id="laboratorio-base" class="flex-1 bg-orange-50 p-8 rounded-xl space-y-6">
+                    <h3 class="text-xl font-bold text-gray-800 border-b-2 border-orange-400 pb-2">Laboratorio 1: Progetto "Open Day"</h3>
                     <p class="text-gray-600">
-                        Oltre a comunicare un prodotto, il volantino è uno strumento per educare il pubblico. Esamina l'importanza dell'etica, dell'inclusività e del design sostenibile.
+                        L'obiettivo è creare un volantino per un evento scolastico, applicando i principi base che avete imparato.
                     </p>
-                    <div class="playable-media bg-gray-300 w-full h-48 rounded-xl flex items-center justify-center" data-type="image" data-src="https://placehold.co/600x400/6f8194/ffffff?text=Design+Etico" onclick="openModal(this)">
-                        <p class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-bold text-center">Clicca per la Foto<br>Design Educativo</p>
+                    <div class="p-6 bg-orange-100 rounded-lg space-y-4">
+                        <h4 class="text-lg font-bold text-orange-800">Briefing e Istruzioni</h4>
+                        <ol class="list-decimal list-inside text-gray-700 space-y-2">
+                            <li><span class="font-semibold">Briefing:</span> Progettate un volantino promozionale per un "Open Day" del vostro istituto professionale. Dovrete comunicare data, orario, indirizzo e una sintesi delle materie insegnate.</li>
+                            <li><span class="font-semibold">Target:</span> Il vostro pubblico sono gli studenti delle scuole medie e le loro famiglie. Il design deve essere accattivante, moderno e invitante.</li>
+                            <li><span class="font-semibold">Strumenti:</span> Potete utilizzare software di grafica come Adobe Photoshop, Illustrator o programmi gratuiti come GIMP o Canva.</li>
+                            <li><span class="font-semibold">Consegna:</span> Il volantino deve essere in formato A5 (14,8 x 21 cm), con un'immagine ad alta risoluzione (almeno 300 DPI) e un testo ben leggibile.</li>
+                        </ol>
                     </div>
                 </div>
 
+                <!-- Laboratorio Avanzato -->
+                <div id="laboratorio-avanzato" class="flex-1 bg-orange-50 p-8 rounded-xl space-y-6">
+                    <h3 class="text-xl font-bold text-gray-800 border-b-2 border-orange-400 pb-2">Laboratorio 2: Immagine Coordinata</h3>
+                    <p class="text-gray-600">
+                        In questo laboratorio, lavoreremo su un progetto più complesso: un'immagine coordinata. Dovrete progettare un volantino che si integri perfettamente con il logo e l'identità visiva di un'azienda.
+                    </p>
+                    <div class="p-6 bg-orange-100 rounded-lg space-y-4">
+                        <h4 class="text-lg font-bold text-orange-800">Briefing e Istruzioni</h4>
+                        <ol class="list-decimal list-inside text-gray-700 space-y-2">
+                            <li><span class="font-semibold">Briefing:</span> L'azienda "GreenTech Solutions" (simulata) produce pannelli solari innovativi. Hanno già un logo e una palette di colori (verde scuro, blu e bianco). Il vostro compito è creare un volantino che comunichi l'Open Day aziendale, usando i loro colori e il loro stile.</li>
+                            <li><span class="font-semibold">Target:</span> Clienti e investitori. Il design deve trasmettere professionalità, innovazione e sostenibilità.</li>
+                            <li><span class="font-semibold">Vincoli:</span> Utilizzate solo la palette di colori fornita, il font "Inter" e un'immagine che richiami l'energia pulita. Non è necessario creare un logo, ma il vostro volantino deve apparire come parte di un'identità visiva più ampia.</li>
+                            <li><span class="font-semibold">Consegna:</span> Presentate il volantino in formato A5, insieme a una breve spiegazione (max 50 parole) su come avete applicato i principi dell'immagine coordinata nel vostro progetto.</li>
+                        </ol>
+                    </div>
+                </div>
             </div>
         </section>
-
-        <section id="laboratorio" class="bg-orange-50 p-8 rounded-xl space-y-6">
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 border-b-2 border-orange-400 pb-2">Esercitazione di Laboratorio</h2>
-            <p class="text-gray-600">
-                Ora tocca a voi! L'obiettivo è creare un volantino per un evento scolastico. Seguite le istruzioni e applicate ciò che avete imparato.
-            </p>
-            <div class="p-6 bg-orange-100 rounded-lg space-y-4">
-                <h3 class="text-xl font-bold text-orange-800">Progetto: "Open Day" dell'Istituto</h3>
-                <ol class="list-decimal list-inside text-gray-700 space-y-2">
-                    <li><span class="font-semibold">Briefing:</span> Progettate un volantino promozionale per un "Open Day" del vostro istituto professionale. Dovrete comunicare data, orario, indirizzo e una sintesi delle materie insegnate.</li>
-                    <li><span class="font-semibold">Target:</span> Il vostro pubblico sono gli studenti delle scuole medie e le loro famiglie. Il design deve essere accattivante, moderno e invitante.</li>
-                    <li><span class="font-semibold">Strumenti:</span> Potete utilizzare software di grafica come Adobe Photoshop, Illustrator o programmi gratuiti come GIMP o Canva.</li>
-                    <li><span class="font-semibold">Consegna:</span> Il volantino deve essere in formato A5 (14,8 x 21 cm), con un'immagine ad alta risoluzione (almeno 300 DPI) e un testo ben leggibile.</li>
-                </ol>
-            </div>
-        </section>
-
     </div>
 
     <!-- Modal per la visualizzazione dei contenuti -->
