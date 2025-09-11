@@ -18,6 +18,41 @@
         .section-content {
             display: none;
         }
+        .error-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            justify-content: center;
+            align-items: center;
+        }
+        .error-modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 24px;
+            border-radius: 1rem;
+            width: 80%;
+            max-width: 400px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body class="p-6 md:p-12 transition-colors duration-500">
@@ -187,12 +222,21 @@
                             <li>Pannello destro → Attività ed eventi</li>
                         </ul>
                     </li>
-                    <li><span class="font-semibold">Retro (ultima anta)</span>
+                    <li><span class="font-semibold">Retro (ultima anta)</li>
                         <ul class="list-disc list-inside ml-6 space-y-1">
                             <li>Contatti</li>
                         </ul>
                     </li>
                 </ul>
+            </div>
+            <!-- Nuovi bottoni per il laboratorio -->
+            <div class="mt-8 flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4">
+                <button onclick="submitWork()" class="bg-orange-100 hover:bg-orange-200 text-orange-700 font-bold py-2 px-4 rounded-full shadow-md transition duration-300 w-full md:w-auto">
+                    Consegna il lavoro
+                </button>
+                <button onclick="provideFeedback()" class="bg-orange-100 hover:bg-orange-200 text-orange-700 font-bold py-2 px-4 rounded-full shadow-md transition duration-300 w-full md:w-auto">
+                    Feedback
+                </button>
             </div>
         </section>
     </div>
@@ -202,6 +246,15 @@
         <div class="relative max-w-screen-lg max-h-screen-lg">
             <img id="enlarged-image" src="" alt="Esempio di Pieghevole Ingrandito" class="rounded-lg shadow-xl" onclick="event.stopPropagation()">
             <button onclick="closeImageModal()" class="absolute top-4 right-4 text-white text-3xl font-bold p-2 bg-black bg-opacity-50 rounded-full hover:bg-opacity-75 transition duration-300">&times;</button>
+        </div>
+    </div>
+
+    <!-- Modale per messaggi di errore -->
+    <div id="error-modal" class="error-modal">
+        <div class="error-modal-content">
+            <span class="close-button" onclick="closeErrorModal()">&times;</span>
+            <h3 class="font-bold text-xl text-red-600 mb-2">Errore riproduzione audio</h3>
+            <p id="error-message" class="text-gray-700"></p>
         </div>
     </div>
 
@@ -252,8 +305,14 @@
 
             // Se l'audio è in pausa, fallo partire e cambia il testo del bottone
             if (audio.paused) {
-                audio.play();
-                button.textContent = 'Metti in pausa';
+                try {
+                    audio.play();
+                    button.textContent = 'Metti in pausa';
+                } catch (error) {
+                    // Se c'è un errore, mostriamo il modale con il messaggio
+                    showErrorModal("Non è stato possibile avviare la riproduzione. Potrebbe esserci un problema con il file audio o il browser.");
+                    console.error("Errore nella riproduzione dell'audio:", error);
+                }
             } else {
                 // Altrimenti, metti in pausa l'audio e cambia il testo del bottone
                 audio.pause();
@@ -275,11 +334,33 @@
             modal.classList.add('hidden');
         }
 
+        // Funzione per mostrare il modale di errore
+        function showErrorModal(message) {
+            document.getElementById('error-message').textContent = message;
+            document.getElementById('error-modal').style.display = 'flex';
+        }
+
+        // Funzione per chiudere il modale di errore
+        function closeErrorModal() {
+            document.getElementById('error-modal').style.display = 'none';
+        }
+
         // Mostra la sezione introduttiva e imposta il colore di sfondo all'avvio della pagina
         document.addEventListener('DOMContentLoaded', () => {
             showSection('introduzione');
             document.body.classList.add('bg-purple-100');
         });
+
+        // Funzioni vuote per i nuovi bottoni, da implementare in futuro
+        function submitWork() {
+            // Qui andrà la logica per la consegna del lavoro
+            console.log("Bottone 'Consegna il lavoro' cliccato!");
+        }
+
+        function provideFeedback() {
+            // Qui andrà la logica per il feedback
+            console.log("Bottone 'Feedback' cliccato!");
+        }
     </script>
 </body>
 </html>
