@@ -10,7 +10,6 @@
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #f0f4f8;
             color: #374151;
         }
         h1, h2, h3 {
@@ -21,7 +20,7 @@
         }
     </style>
 </head>
-<body class="p-6 md:p-12">
+<body class="p-6 md:p-12 transition-colors duration-500">
     <div class="max-w-6xl mx-auto bg-white p-6 md:p-10 rounded-3xl shadow-lg border border-gray-200">
 
         <!-- Intestazione -->
@@ -33,11 +32,11 @@
         <nav class="mb-8">
             <!-- Lista delle voci di menu, sempre visibile -->
             <ul id="mobile-menu" class="flex md:flex md:flex-row flex-col justify-center space-y-2 md:space-y-0 md:space-x-4">
-                <li><button onclick="showSection('introduzione')" class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300 w-full">Introduzione</button></li>
-                <li><button onclick="showSection('tipologie')" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300 w-full">Diverse tipologie</button></li>
-                <li><button onclick="showSection('regole')" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300 w-full">Regole d'oro</button></li>
-                <li><button onclick="showSection('errori')" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300 w-full">5 errori</button></li>
-                <li><button onclick="showSection('laboratorio')" class="bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300 w-full">Laboratorio</button></li>
+                <li><button onclick="showSection('introduzione', 'bg-purple-100')" class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300 w-full">Introduzione</button></li>
+                <li><button onclick="showSection('tipologie', 'bg-blue-100')" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300 w-full">Diverse tipologie</button></li>
+                <li><button onclick="showSection('regole', 'bg-green-100')" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300 w-full">Regole d'oro</button></li>
+                <li><button onclick="showSection('errori', 'bg-red-100')" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300 w-full">5 errori</button></li>
+                <li><button onclick="showSection('laboratorio', 'bg-orange-100')" class="bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300 w-full">Laboratorio</button></li>
             </ul>
         </nav>
 
@@ -209,6 +208,15 @@
 
     <!-- Script JavaScript per i pulsanti audio e la visualizzazione delle sezioni -->
     <script>
+        const colorMap = {
+            'introduzione': 'bg-purple-100',
+            'tipologie': 'bg-blue-100',
+            'regole': 'bg-green-100',
+            'errori': 'bg-red-100',
+            'laboratorio': 'bg-orange-100'
+        };
+        const allColors = Object.values(colorMap);
+        
         function showSection(sectionId) {
             // Nasconde tutte le sezioni
             document.querySelectorAll('.section-content').forEach(section => {
@@ -216,6 +224,13 @@
             });
             // Mostra la sezione desiderata
             document.getElementById(sectionId).style.display = 'block';
+
+            // Cambia il colore dello sfondo del body
+            const body = document.body;
+            allColors.forEach(color => {
+                body.classList.remove(color);
+            });
+            body.classList.add(colorMap[sectionId]);
         }
 
         // Funzione per la gestione degli audio
@@ -260,9 +275,10 @@
             modal.classList.add('hidden');
         }
 
-        // Mostra la sezione introduttiva all'avvio della pagina
+        // Mostra la sezione introduttiva e imposta il colore di sfondo all'avvio della pagina
         document.addEventListener('DOMContentLoaded', () => {
             showSection('introduzione');
+            document.body.classList.add('bg-purple-100');
         });
     </script>
 </body>
