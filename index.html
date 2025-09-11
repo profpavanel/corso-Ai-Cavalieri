@@ -3,283 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lezione di Grafica: I Volantini</title>
+    <title>Lezione di Grafica: I Pieghevoli</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
-            color: #1f2937;
+            background-color: #f0f4f8; /* Sfondo chiaro per maggiore leggibilità */
+            color: #374151; /* Testo scuro */
         }
-        .card {
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
-        }
-        .playable-media {
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            border-radius: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .playable-media:before {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background: rgba(0, 0, 0, 0.4);
-            transition: background 0.3s;
-        }
-        .playable-media:hover:before {
-            background: rgba(0, 0, 0, 0.2);
-        }
-        .playable-media:after {
-            content: "▶";
-            font-size: 3rem;
-            color: white;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-        .playable-media:hover:after {
-            opacity: 1;
-        }
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-        .dropdown-content {
+        .section-content {
             display: none;
-            position: absolute;
-            background-color: #fff;
-            min-width: 200px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            border-radius: 0.5rem;
-            overflow: hidden;
-        }
-        .dropdown-content a {
-            color: #1f2937;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-        .dropdown-content a:hover {
-            background-color: #f59e0b;
-            color: white;
-        }
-        .dropdown:hover .dropdown-content {
-            display: block;
         }
     </style>
 </head>
-<body class="p-6">
+<body class="p-6 md:p-12">
+    <div class="max-w-6xl mx-auto bg-white p-6 md:p-10 rounded-3xl shadow-lg border border-gray-200">
 
-    <div class="max-w-6xl mx-auto space-y-12">
-        <header class="text-center space-y-2 pb-4 pt-2 rounded-xl">
-            <h1 class="text-4xl sm:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-red-600">Lezione di Grafica: I Volantini</h1>
-            <p class="text-lg text-gray-600">Esploriamo insieme gli aspetti fondamentali, artistici, tecnici ed educativi della creazione di un volantino efficace. Benvenuti a questa esperienza di apprendimento pratico!</p>
+        <!-- Intestazione -->
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-5xl font-bold text-red-800 mb-2">I Pieghevoli</h1>
         </header>
 
-        <!-- Dropdown Menu -->
-        <div class="flex justify-center my-8">
-            <div class="dropdown">
-                <button class="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-colors">
-                    Scegli un argomento ↓
-                </button>
-                <div class="dropdown-content">
-                    <a href="#fondamentali" class="hover:bg-orange-500 hover:text-white">Aspetti Fondamentali</a>
-                    <a href="#artistici" class="hover:bg-orange-500 hover:text-white">Aspetti Artistici</a>
-                    <a href="#tecnici" class="hover:bg-orange-500 hover:text-white">Aspetti Tecnici</a>
-                    <a href="#educativi" class="hover:bg-orange-500 hover:text-white">Aspetti Educativi</a>
-                    <a href="#laboratorio-base" class="hover:bg-orange-500 hover:text-white">Laboratorio (Base)</a>
-                    <a href="#laboratorio-avanzato" class="hover:bg-orange-500 hover:text-white">Laboratorio (Avanzato)</a>
+        <!-- Menu di Navigazione -->
+        <nav class="mb-8">
+            <ul class="flex flex-wrap justify-center md:flex-row space-y-2 md:space-y-0 md:space-x-4">
+                <li><button onclick="showSection('introduzione')" class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300">Introduzione</button></li>
+                <li><button onclick="showSection('tipologie')" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300">Diverse tipologie</button></li>
+                <li><button onclick="showSection('regole')" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300">Regole d'oro</button></li>
+                <li><button onclick="showSection('errori')" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300">5 errori</button></li>
+                <li><button onclick="showSection('laboratorio')" class="bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300">Laboratorio</button></li>
+            </ul>
+        </nav>
+
+        <!-- Contenuto delle sezioni -->
+
+        <!-- Sezione: Introduzione -->
+        <section id="introduzione" class="section-content p-6 md:p-10 rounded-3xl shadow-lg border border-gray-200">
+            <h2 class="text-2xl md:text-3xl font-semibold text-purple-700 mb-4">Cosa sono i Pieghevoli?</h2>
+            <div class="flex flex-col md:flex-row items-center md:items-start md:space-x-8">
+                <div class="md:w-2/3">
+                    <p class="text-gray-700 mb-4 leading-relaxed">
+                        I pieghevoli, o brochure, sono uno strumento di comunicazione fondamentale nel marketing. Si tratta di stampati che, tramite specifiche pieghe, sono in grado di organizzare un grande quantitativo di informazioni in uno spazio ridotto, guidando il lettore attraverso un percorso logico e visivo. Sono perfetti per presentare un'azienda, un prodotto, un servizio o un evento in modo chiaro e conciso.
+                    </p>
+                </div>
+                <div class="md:w-1/3 mt-6 md:mt-0 flex flex-col items-center space-y-4">
+                    <!-- Contenitore per l'audio 1 -->
+                    <div class="bg-purple-100 p-4 rounded-xl shadow-inner w-full text-center border border-gray-200">
+                        <audio id="audio1" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+                        <button onclick="playAudio('audio1')" class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-full shadow-md transition duration-300">
+                            Ascolta la Lezione (Parte 1)
+                        </button>
+                        <p class="text-sm text-gray-500 mt-2">Spiegazione introduttiva</p>
+                    </div>
                 </div>
             </div>
-        </div>
+            <!-- Immagine sotto l'audio -->
+            <div class="w-full mt-8 flex justify-center">
+                <img onclick="openImageModal('https://placehold.co/800x600/22c55e/ffffff?text=Esempio+di+Pieghevole+Ingrandito')" 
+                     src="https://placehold.co/600x350/22c55e/ffffff?text=Esempio+di+Pieghevole" 
+                     alt="Esempio di Pieghevole" 
+                     class="w-full md:w-3/4 h-auto rounded-lg shadow-md cursor-pointer transition transform hover:scale-105 duration-300">
+            </div>
+        </section>
 
-        <section id="contenuti-didattici">
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 border-b-2 border-orange-400 pb-2">Contenuti Essenziali</h2>
-            <!-- Layout a due colonne per ogni sezione -->
+        <!-- Sezione: Le diverse tipologie -->
+        <section id="tipologie" class="section-content p-6 md:p-10 rounded-3xl shadow-lg border border-gray-200">
+            <h2 class="text-2xl md:text-3xl font-semibold text-blue-700 mb-4">Le diverse tipologie</h2>
+            <div class="flex flex-col md:flex-row items-center md:items-start md:space-x-8">
+                <div class="md:w-2/3">
+                    <p class="text-gray-700 mb-4 leading-relaxed">
+                        Esistono molte tipologie di pieghevoli, che si distinguono per il numero di ante e il tipo di piega. I più comuni sono:
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li><span class="font-medium">Pieghevole a 2 ante (o a libro):</span> il più semplice, con una sola piega centrale.</li>
+                        <li><span class="font-medium">Pieghevole a 3 ante (a fisarmonica):</span> le pieghe creano un effetto a "Z" o a "fisarmonica", perfetto per contenuti sequenziali.</li>
+                        <li><span class="font-medium">Pieghevole a 3 ante (a portafoglio):</span> le due ante laterali si ripiegano verso l'interno, nascondendo il contenuto fino all'apertura.</li>
+                        <li><span class="font-medium">Pieghevole a 4 ante o più:</span> per brochure più complesse e con molti dettagli, con pieghe multiple.</li>
+                    </ul>
+                </div>
+                <div class="md:w-1/3 mt-6 md:mt-0 flex flex-col items-center space-y-4">
+                    <!-- Contenitore per l'audio 2 -->
+                    <div class="bg-blue-100 p-4 rounded-xl shadow-inner w-full text-center border border-gray-200">
+                        <audio id="audio2" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp-3"></audio>
+                        <button onclick="playAudio('audio2')" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-full shadow-md transition duration-300">
+                            Ascolta la Lezione (Parte 2)
+                        </button>
+                        <p class="text-sm text-gray-500 mt-2">Dettaglio sulle tipologie</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sezione: Regole d'oro -->
+        <section id="regole" class="section-content p-6 rounded-2xl shadow-inner border border-green-200">
+            <h3 class="text-xl md:text-2xl font-bold text-green-700 mb-4">Le Regole d'Oro per la Realizzazione</h3>
+            <ol class="list-decimal list-outside ml-6 space-y-4 text-gray-700">
+                <li><span class="font-semibold">Conosci il tuo pubblico:</span> Il design e il testo devono essere in linea con le aspettative e gli interessi del tuo target.</li>
+                <li><span class="font-semibold">Mantieni la coerenza visiva:</span> Usa colori, font e immagini che si adattino all'identità del brand e al messaggio che vuoi comunicare.</li>
+                <li><span class="font-semibold">Struttura logica del contenuto:</span> Pensa al pieghevole come a una storia. Guida il lettore attraverso un percorso chiaro, dalla copertina alla call-to-action finale.</li>
+                <li><span class="font-semibold">Usa immagini di alta qualità:</span> Foto e illustrazioni sgranate o a bassa risoluzione rovinano l'intera percezione del lavoro.</li>
+                <li><span class="font-semibold">Spazi bianchi:</span> Lascia respirare il design. Troppo testo o troppe immagini rendono il pieghevole caotico e difficile da leggere.</li>
+                <li><span class="font-semibold">Call-to-Action (CTA) chiara:</span> Dì al tuo lettore cosa fare dopo. Che sia visitare un sito web, chiamare un numero o scansionare un QR code, la CTA deve essere evidente.</li>
+            </ol>
+        </section>
+
+        <!-- Sezione: 5 errori da non fare -->
+        <section id="errori" class="section-content p-6 rounded-2xl shadow-inner border border-gray-200">
+            <h3 class="text-xl md:text-2xl font-bold text-red-700 mb-6">5 Errore da Non Fare</h3>
             <div class="space-y-6">
-
-                <!-- Scheda Aspetti Fondamentali -->
-                <div id="fondamentali" class="card bg-white p-6 rounded-xl">
-                    <div class="flex flex-col md:flex-row items-center gap-6">
-                        <div class="md:w-1/2 space-y-4">
-                            <h3 class="text-xl font-bold text-orange-700">Aspetti Fondamentali</h3>
-                            <p class="text-gray-600">
-                                Cosa rende un volantino efficace? Scopri i principi base della comunicazione visiva, come la gerarchia delle informazioni, il pubblico di riferimento e l'obiettivo del messaggio.
-                            </p>
-                        </div>
-                        <div class="md:w-1/2">
-                            <div class="playable-media bg-gray-300 w-full h-48 rounded-xl flex items-center justify-center" data-type="video" data-src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" onclick="openModal(this)">
-                                <img src="https://placehold.co/600x400/FF8C00/ffffff?text=▶" alt="Copertina Video Aspetti Fondamentali" class="w-full h-full object-cover rounded-lg">
-                            </div>
-                        </div>
+                <!-- Errore 1 -->
+                <div class="flex items-start space-x-4">
+                    <div class="w-8 h-8 md:w-10 md:h-10 flex-shrink-0 bg-rose-500 text-white font-bold text-xl rounded-full flex items-center justify-center shadow-lg">1</div>
+                    <div>
+                        <p class="font-semibold text-lg text-gray-800">Testo troppo piccolo o illegibile</p>
+                        <p class="text-gray-700 mt-1">Non costringere il lettore a usare la lente d'ingrandimento. Scegli font chiari e una dimensione appropriata.</p>
                     </div>
                 </div>
-
-                <!-- Scheda Aspetti Artistici -->
-                <div id="artistici" class="card bg-white p-6 rounded-xl">
-                    <div class="flex flex-col md:flex-row items-center gap-6">
-                        <div class="md:w-1/2 space-y-4">
-                            <h3 class="text-xl font-bold text-orange-700">Aspetti Artistici</h3>
-                            <p class="text-gray-600">
-                                Il design e la creatività sono al centro di ogni progetto. Esplora l'uso del colore, della tipografia, delle immagini e della composizione per catturare l'attenzione e comunicare con stile.
-                            </p>
-                        </div>
-                        <div class="md:w-1/2">
-                            <div class="playable-media bg-gray-300 w-full h-48 rounded-xl flex items-center justify-center" data-type="image" data-src="https://placehold.co/600x400/0f2b4c/ffffff?text=Esempio+Artistico" onclick="openModal(this)">
-                                <img src="https://placehold.co/600x400/DC143C/ffffff?text=🎨" alt="Copertina Foto Aspetti Artistici" class="w-full h-full object-cover rounded-lg">
-                            </div>
-                        </div>
+                <!-- Errore 2 -->
+                <div class="flex items-start space-x-4">
+                    <div class="w-8 h-8 md:w-10 md:h-10 flex-shrink-0 bg-rose-500 text-white font-bold text-xl rounded-full flex items-center justify-center shadow-lg">2</div>
+                    <div>
+                        <p class="font-semibold text-lg text-gray-800">Mancanza di una gerarchia</p>
+                        <p class="text-gray-700 mt-1">Non dare la stessa importanza a tutti gli elementi. I titoli, i sottotitoli e il corpo del testo devono essere ben distinti.</p>
                     </div>
                 </div>
-
-                <!-- Scheda Aspetti Tecnici -->
-                <div id="tecnici" class="card bg-white p-6 rounded-xl">
-                    <div class="flex flex-col md:flex-row items-center gap-6">
-                        <div class="md:w-1/2 space-y-4">
-                            <h3 class="text-xl font-bold text-orange-700">Aspetti Tecnici</h3>
-                            <p class="text-gray-600">
-                                Un bel design non basta se non è stampabile. Impara le specifiche tecniche come il formato, la risoluzione (DPI), i margini di sicurezza e la gestione dei colori (RGB vs CMYK).
-                            </p>
-                        </div>
-                        <div class="md:w-1/2">
-                            <div class="playable-media bg-gray-300 w-full h-48 rounded-xl flex items-center justify-center" data-type="video" data-src="https://www.youtube.com/embed/p10jBw5aE8E?autoplay=1" onclick="openModal(this)">
-                                <img src="https://placehold.co/600x400/FF8C00/ffffff?text=▶" alt="Copertina Video Aspetti Tecnici" class="w-full h-full object-cover rounded-lg">
-                            </div>
-                        </div>
+                <!-- Errore 3 -->
+                <div class="flex items-start space-x-4">
+                    <div class="w-8 h-8 md:w-10 md:h-10 flex-shrink-0 bg-rose-500 text-white font-bold text-xl rounded-full flex items-center justify-center shadow-lg">3</div>
+                    <div>
+                        <p class="font-semibold text-lg text-gray-800">Pieghe non allineate</p>
+                        <p class="text-gray-700 mt-1">Le pieghe sono fondamentali. Un design che non tiene conto delle linee di piega risulterà disordinato e poco professionale.</p>
                     </div>
                 </div>
-                
-                <!-- Scheda Aspetti Educativi -->
-                <div id="educativi" class="card bg-white p-6 rounded-xl">
-                    <div class="flex flex-col md:flex-row items-center gap-6">
-                        <div class="md:w-1/2 space-y-4">
-                            <h3 class="text-xl font-bold text-orange-700">Aspetti Educativi</h3>
-                            <p class="text-gray-600">
-                                Oltre a comunicare un prodotto, il volantino è uno strumento per educare il pubblico. Esamina l'importanza dell'etica, dell'inclusività e del design sostenibile.
-                            </p>
-                        </div>
-                        <div class="md:w-1/2">
-                            <div class="playable-media bg-gray-300 w-full h-48 rounded-xl flex items-center justify-center" data-type="image" data-src="https://placehold.co/600x400/6f8194/ffffff?text=Design+Etico" onclick="openModal(this)">
-                                <img src="https://placehold.co/600x400/DC143C/ffffff?text=🌱" alt="Copertina Foto Aspetti Educativi" class="w-full h-full object-cover rounded-lg">
-                            </div>
-                        </div>
+                <!-- Errore 4 -->
+                <div class="flex items-start space-x-4">
+                    <div class="w-8 h-8 md:w-10 md:h-10 flex-shrink-0 bg-rose-500 text-white font-bold text-xl rounded-full flex items-center justify-center shadow-lg">4</div>
+                    <div>
+                        <p class="font-semibold text-lg text-gray-800">Messaggio non chiaro</p>
+                        <p class="text-gray-700 mt-1">Non confondere il lettore con troppe informazioni o messaggi contrastanti. Un pieghevole deve avere un obiettivo principale.</p>
+                    </div>
+                </div>
+                <!-- Errore 5 -->
+                <div class="flex items-start space-x-4">
+                    <div class="w-8 h-8 md:w-10 md:h-10 flex-shrink-0 bg-rose-500 text-white font-bold text-xl rounded-full flex items-center justify-center shadow-lg">5</div>
+                    <div>
+                        <p class="font-semibold text-lg text-gray-800">Stampa di bassa qualità</p>
+                        <p class="text-gray-700 mt-1">Anche il design migliore può essere rovinato da una stampa scadente. Assicurati che i colori siano vivaci e i dettagli nitidi.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="laboratori">
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 border-b-2 border-orange-400 pb-2">Esercitazioni di Laboratorio</h2>
-            <!-- Contenitore flex per le due colonne -->
-            <div class="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0">
-                <!-- Laboratorio Base -->
-                <div id="laboratorio-base" class="flex-1 bg-orange-50 p-8 rounded-xl space-y-6">
-                    <h3 class="text-xl font-bold text-gray-800 border-b-2 border-orange-400 pb-2">Laboratorio 1: Progetto "Open Day"</h3>
-                    <p class="text-gray-600">
-                        L'obiettivo è creare un volantino per un evento scolastico, applicando i principi base che avete imparato.
-                    </p>
-                    <div class="p-6 bg-orange-100 rounded-lg space-y-4">
-                        <h4 class="text-lg font-bold text-orange-800">Briefing e Istruzioni</h4>
-                        <ol class="list-decimal list-inside text-gray-700 space-y-2">
-                            <li><span class="font-semibold">Briefing:</span> Progettate un volantino promozionale per un "Open Day" del vostro istituto professionale. Dovrete comunicare data, orario, indirizzo e una sintesi delle materie insegnate.</li>
-                            <li><span class="font-semibold">Target:</span> Il vostro pubblico sono gli studenti delle scuole medie e le loro famiglie. Il design deve essere accattivante, moderno e invitante.</li>
-                            <li><span class="font-semibold">Strumenti:</span> Potete utilizzare software di grafica come Adobe Photoshop, Illustrator o programmi gratuiti come GIMP o Canva.</li>
-                            <li><span class="font-semibold">Consegna:</span> Il volantino deve essere in formato A5 (14,8 x 21 cm), con un'immagine ad alta risoluzione (almeno 300 DPI) e un testo ben leggibile.</li>
-                        </ol>
-                    </div>
-                </div>
-
-                <!-- Laboratorio Avanzato -->
-                <div id="laboratorio-avanzato" class="flex-1 bg-orange-50 p-8 rounded-xl space-y-6">
-                    <h3 class="text-xl font-bold text-gray-800 border-b-2 border-orange-400 pb-2">Laboratorio 2: Immagine Coordinata</h3>
-                    <p class="text-gray-600">
-                        In questo laboratorio, lavoreremo su un progetto più complesso: un'immagine coordinata. Dovrete progettare un volantino che si integri perfettamente con il logo e l'identità visiva di un'azienda.
-                    </p>
-                    <div class="p-6 bg-orange-100 rounded-lg space-y-4">
-                        <h4 class="text-lg font-bold text-orange-800">Briefing e Istruzioni</h4>
-                        <ol class="list-decimal list-inside text-gray-700 space-y-2">
-                            <li><span class="font-semibold">Briefing:</span> L'azienda "GreenTech Solutions" (simulata) produce pannelli solari innovativi. Hanno già un logo e una palette di colori (verde scuro, blu e bianco). Il vostro compito è creare un volantino che comunichi l'Open Day aziendale, usando i loro colori e il loro stile.</li>
-                            <li><span class="font-semibold">Target:</span> Clienti e investitori. Il design deve trasmettere professionalità, innovazione e sostenibilità.</li>
-                            <li><span class="font-semibold">Vincoli:</span> Utilizzate solo la palette di colori fornita, il font "Inter" e un'immagine che richiami l'energia pulita. Non è necessario creare un logo, ma il vostro volantino deve apparire come parte di un'identità visiva più ampia.</li>
-                            <li><span class="font-semibold">Consegna:</span> Presentate il volantino in formato A5, insieme a una breve spiegazione (max 50 parole) su come avete applicato i principi dell'immagine coordinata nel vostro progetto.</li>
-                        </ol>
-                    </div>
-                </div>
+        <!-- Sezione Laboratorio Pratico -->
+        <section id="laboratorio" class="section-content mt-10 p-6 rounded-2xl bg-gray-50 shadow-inner border border-gray-200">
+            <h2 class="text-2xl md:text-3xl font-bold text-orange-700 mb-4">Laboratorio Pratico: Crea il tuo Pieghevole</h2>
+            <p class="text-gray-700 mb-6 leading-relaxed">
+                Nelle scorse settimane abbiamo lavorato per creare un logo. Ora è il momento di metterlo in pratica! Useremo quel logo per progettare il nostro pieghevole a tre ante. Pensa a come le regole d'oro e gli errori da non fare si applicano al tuo lavoro.
+            </p>
+            <p class="text-gray-700 mb-6 leading-relaxed font-bold">
+                Ricorda: lo schema che segue è solo un suggerimento per aiutarti a visualizzare la struttura. Sentiti libero di adattarlo e di sperimentare soluzioni creative.
+            </p>
+            <div class="space-y-4">
+                <p class="font-bold text-lg text-gray-800">📐 Schema tipico pieghevole a 3 ante (fronte/retro):</p>
+                <ul class="list-disc list-inside ml-4 space-y-2 text-gray-700">
+                    <li><span class="font-semibold">Fronte (chiuso)</span>
+                        <ul class="list-disc list-inside ml-6 space-y-1">
+                            <li>Logo + headline</li>
+                            <li>Foto suggestiva</li>
+                        </ul>
+                    </li>
+                    <li><span class="font-semibold">Interno</span>
+                        <ul class="list-disc list-inside ml-6 space-y-1">
+                            <li>Pannello sinistro → Chi siamo</li>
+                            <li>Pannello destro → Attività ed eventi</li>
+                        </ul>
+                    </li>
+                    <li><span class="font-semibold">Retro (ultima anta)</span>
+                        <ul class="list-disc list-inside ml-6 space-y-1">
+                            <li>Contatti</li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </section>
+
     </div>
 
-    <!-- Modal per la visualizzazione dei contenuti -->
-    <div id="modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
-        <div class="relative bg-white p-6 rounded-lg max-w-4xl w-full">
-            <button class="absolute top-2 right-4 text-gray-500 hover:text-gray-800 text-3xl font-bold" onclick="closeModal()">
-                &times;
-            </button>
-            <div id="modal-content" class="w-full">
-                <!-- Il contenuto (immagine o video) verrà inserito qui dal JavaScript -->
-            </div>
+    <!-- Modale per l'ingrandimento dell'immagine -->
+    <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50 hidden" onclick="closeImageModal()">
+        <div class="relative max-w-screen-lg max-h-screen-lg">
+            <img id="enlarged-image" src="" alt="Esempio di Pieghevole Ingrandito" class="rounded-lg shadow-xl" onclick="event.stopPropagation()">
+            <button onclick="closeImageModal()" class="absolute top-4 right-4 text-white text-3xl font-bold p-2 bg-black bg-opacity-50 rounded-full hover:bg-opacity-75 transition duration-300">&times;</button>
         </div>
     </div>
 
+
+    <!-- Script JavaScript per i pulsanti audio e la visualizzazione delle sezioni -->
     <script>
-        // Funzioni per gestire il modal
-        const modal = document.getElementById('modal');
-        const modalContent = document.getElementById('modal-content');
-
-        function openModal(element) {
-            const type = element.dataset.type;
-            const src = element.dataset.src;
-
-            // Rimuove qualsiasi contenuto precedente
-            modalContent.innerHTML = '';
-
-            if (type === 'video') {
-                modalContent.innerHTML = `
-                    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
-                        <iframe src="${src}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
-                    </div>
-                `;
-            } else if (type === 'image') {
-                modalContent.innerHTML = `
-                    <img src="${src}" alt="Contenuto" class="w-full h-auto rounded-lg">
-                `;
+        function showSection(sectionId) {
+            // Nasconde tutte le sezioni
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.style.display = 'none';
+            });
+            // Mostra la sezione desiderata
+            document.getElementById(sectionId).style.display = 'block';
+        }
+    
+        function playAudio(audioId) {
+            const audio = document.getElementById(audioId);
+            if (audio) {
+                // Ferma tutti gli altri audio
+                document.querySelectorAll('audio').forEach(otherAudio => {
+                    if (otherAudio.id !== audioId) {
+                        otherAudio.pause();
+                        otherAudio.currentTime = 0;
+                    }
+                });
+                // Riproduci o metti in pausa l'audio corrente
+                if (audio.paused) {
+                    audio.play().catch(e => console.error("Errore nella riproduzione dell'audio:", e));
+                } else {
+                    audio.pause();
+                }
             }
+        }
+
+        // Funzione per aprire la modale dell'immagine
+        function openImageModal(imgSrc) {
+            const modal = document.getElementById('image-modal');
+            const enlargedImage = document.getElementById('enlarged-image');
+            enlargedImage.src = imgSrc;
             modal.classList.remove('hidden');
         }
 
-        function closeModal() {
-            // Interrompe il video se sta riproducendo
-            const iframe = modalContent.querySelector('iframe');
-            if (iframe) {
-                iframe.src = '';
-            }
+        // Funzione per chiudere la modale dell'immagine
+        function closeImageModal() {
+            const modal = document.getElementById('image-modal');
             modal.classList.add('hidden');
         }
-
-        // Chiude il modal cliccando al di fuori del contenuto
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                closeModal();
-            }
-        }
+    
+        // Mostra la sezione introduttiva all'avvio della pagina
+        document.addEventListener('DOMContentLoaded', () => {
+                showSection('introduzione');
+        });
     </script>
-
 </body>
 </html>
