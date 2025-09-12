@@ -1,57 +1,445 @@
-const CACHE_NAME = 'grafica-v1';
-const urlsToCache = [
-  '/',
-  '/index.html',
-  '/styles.css', // Se usi un file CSS esterno
-  '/manifest.json',
-  '/sw.js',
-  '/icon-192.png',
-  '/icon-512.png',
-  'https://cdn.tailwindcss.com', // Tailwind CSS
-  'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap',
-  'https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap',
-  // Aggiungi qui gli URL di tutte le tue immagini e file audio
-  '/intro.mp3',
-  '/tipologie.mp3',
-  '/pieghevole.jpg',
-  '/diverse_tipologie.jpg'
-];
-
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Cache aperta');
-        return cache.addAll(urlsToCache);
-      })
-  );
-});
-
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Se la risorsa è in cache, la serviamo
-        if (response) {
-          return response;
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezione di Grafica: I Pieghevoli</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #374151;
         }
-        // Altrimenti, la recuperiamo dalla rete
-        return fetch(event.request);
-      })
-  );
-});
+        h1, h2, h3 {
+            font-family: 'Permanent Marker', cursive;
+        }
+        .section-content {
+            display: none;
+        }
+        .error-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            justify-content: center;
+            align-items: center;
+        }
+        .error-modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 24px;
+            border-radius: 1rem;
+            width: 80%;
+            max-width: 400px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .drag-drop-area {
+            border: 2px dashed #9ca3af;
+            border-radius: 1rem;
+            padding: 3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .drag-drop-area.active {
+            border-color: #4f46e5;
+            background-color: #eef2ff;
+        }
+    </style>
+</head>
+<body class="p-6 md:p-12 transition-colors duration-500">
+    <div class="max-w-6xl mx-auto bg-white p-6 md:p-10 rounded-3xl shadow-lg border border-gray-200">
 
-self.addEventListener('activate', event => {
-  const cacheWhitelist = [CACHE_NAME];
-  event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheWhitelist.indexOf(cacheName) === -1) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
-  );
-});
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-5xl font-bold text-black mb-2">I Pieghevoli</h1>
+        </header>
+
+        <nav class="mb-8">
+            <ul id="mobile-menu" class="flex md:flex md:flex-row flex-col justify-center space-y-2 md:space-y-0 md:space-x-4">
+                <li><button onclick="showSection('introduzione')" class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300 w-full">Introduzione</button></li>
+                <li><button onclick="showSection('tipologie')" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300 w-full">Diverse tipologie</button></li>
+                <li><button onclick="showSection('regole')" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300 w-full">Regole d'oro</button></li>
+                <li><button onclick="showSection('errori')" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300 w-full">5 errori</button></li>
+                <li><button onclick="showSection('laboratorio')" class="bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300 w-full">Laboratorio</button></li>
+            </ul>
+        </nav>
+
+        <section id="introduzione" class="section-content p-6 md:p-10 rounded-3xl shadow-lg border border-gray-200">
+            <h2 class="text-2xl md:text-3xl font-semibold text-purple-700 mb-4">Cosa sono i Pieghevoli?</h2>
+            <div class="flex flex-col md:flex-row items-center md:items-start md:space-x-8">
+                <div class="md:w-2/3">
+                    <p class="text-gray-700 mb-4 leading-relaxed">
+                        I pieghevoli, o brochure, sono uno strumento di comunicazione fondamentale nel marketing.
+                        Si tratta di stampati che, tramite specifiche pieghe, sono in grado di organizzare un grande
+                        quantitativo di informazioni in uno spazio ridotto, guidando il lettore attraverso un percorso
+                        logico e visivo.
+                    </p>
+                </div>
+                <div class="md:w-1/3 mt-6 md:mt-0 flex flex-col items-center space-y-4">
+                    <div class="bg-purple-100 p-4 rounded-xl shadow-inner w-full text-center border border-gray-200">
+                        <audio id="audio1" src="intro.mp3"></audio>
+                        <button id="button1" onclick="playAudio('audio1', 'button1')" class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-full shadow-md transition duration-300">
+                            Ascolta la lezione
+                        </button>
+                        <p class="text-sm text-gray-500 mt-2">Spiegazione introduttiva</p>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full mt-8 flex justify-center">
+                <img onclick="openImageModal('./pieghevole.jpg')" 
+                     src="./pieghevole.jpg" 
+                     alt="Esempio di Pieghevole" 
+                     class="w-full md:w-3/4 h-auto rounded-lg shadow-md cursor-pointer transition transform hover:scale-105 duration-300">
+            </div>
+        </section>
+
+        <section id="tipologie" class="section-content p-6 md:p-10 rounded-3xl shadow-lg border border-gray-200">
+            <h2 class="text-2xl md:text-3xl font-semibold text-blue-700 mb-4">Le diverse tipologie</h2>
+            <div class="flex flex-col md:flex-row items-center md:items-start md:space-x-8">
+                <div class="md:w-2/3">
+                    <p class="text-gray-700 mb-4 leading-relaxed">
+                        Esistono molte tipologie di pieghevoli, che si distinguono per il numero di ante e il tipo di piega.
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li><span class="font-medium">Pieghevole a 2 ante:</span> una sola piega centrale.</li>
+                        <li><span class="font-medium">Pieghevole a 3 ante (a fisarmonica):</span> con pieghe a "Z".</li>
+                        <li><span class="font-medium">Pieghevole a 3 ante (a portafoglio):</span> le due ante si richiudono verso l’interno.</li>
+                        <li><span class="font-medium">Pieghevole a 4 ante o più:</span> pieghe multiple per brochure complesse.</li>
+                    </ul>
+                </div>
+                <div class="md:w-1/3 mt-6 md:mt-0 flex flex-col items-center space-y-4">
+                    <div class="bg-blue-100 p-4 rounded-xl shadow-inner w-full text-center border border-gray-200">
+                        <audio id="audio2" src="tipologie.mp3"></audio>
+                        <button id="button2" onclick="playAudio('audio2', 'button2')" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-full shadow-md transition duration-300">
+                            Ascolta la lezione
+                        </button>
+                        <p class="text-sm text-gray-500 mt-2">Dettaglio sulle tipologie</p>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full mt-8 flex justify-center">
+                <img onclick="openImageModal('./diverse_tipologie.jpg')" 
+                     src="./diverse_tipologie.jpg" 
+                     alt="Esempio delle diverse tipologie di pieghevoli" 
+                     class="w-full md:w-3/4 h-auto rounded-lg shadow-md cursor-pointer transition transform hover:scale-105 duration-300">
+            </div>
+        </section>
+
+        <section id="regole" class="section-content p-6 rounded-2xl shadow-inner border border-green-200">
+            <h3 class="text-xl md:text-2xl font-bold text-green-700 mb-4">Le Regole d'Oro per la Realizzazione</h3>
+            <ol class="list-decimal list-outside ml-6 space-y-4 text-gray-700">
+                <li><span class="font-semibold">Conosci il tuo pubblico:</span> Il design e il testo devono essere in linea con le aspettative e gli interessi del tuo target.</li>
+                <li><span class="font-semibold">Mantieni la coerenza visiva:</span> Usa colori, font e immagini che si adattino all'identità del brand e al messaggio che vuoi comunicare.</li>
+                <li><span class="font-semibold">Struttura logica del contenuto:</span> Pensa al pieghevole come a una storia. Guida il lettore attraverso un percorso chiaro, dalla copertina alla call-to-action finale.</li>
+                <li><span class="font-semibold">Usa immagini di alta qualità:</span> Foto e illustrazioni sgranate o a bassa risoluzione rovinano l'intera percezione del lavoro.</li>
+                <li><span class="font-semibold">Spazi bianchi:</span> Lascia respirare il design. Troppo testo o troppe immagini rendono il pieghevole caotico e difficile da leggere.</li>
+                <li><span class="font-semibold">Call-to-Action (CTA) chiara:</span> Dì al tuo lettore cosa fare dopo. Che sia visitare un sito web, chiamare un numero o scansionare un QR code, la CTA deve essere evidente.</li>
+            </ol>
+        </section>
+
+        <section id="errori" class="section-content p-6 rounded-2xl shadow-inner border border-gray-200">
+            <h3 class="text-xl md:text-2xl font-bold text-red-700 mb-6">5 Errori da Non Fare</h3>
+            <div class="space-y-6">
+                <div class="flex items-start space-x-4">
+                    <div class="w-8 h-8 md:w-10 md:h-10 flex-shrink-0 bg-rose-500 text-white font-bold text-xl rounded-full flex items-center justify-center shadow-lg">❌</div>
+                    <div>
+                        <p class="font-semibold text-lg text-gray-800">Testo troppo piccolo o illegibile</p>
+                        <p class="text-gray-700 mt-1">Non costringere il lettore a usare la lente d'ingrandimento. Scegli font chiari e una dimensione appropriata.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4">
+                    <div class="w-8 h-8 md:w-10 md:h-10 flex-shrink-0 bg-rose-500 text-white font-bold text-xl rounded-full flex items-center justify-center shadow-lg">❌</div>
+                    <div>
+                        <p class="font-semibold text-lg text-gray-800">Mancanza di una gerarchia</p>
+                        <p class="text-gray-700 mt-1">Non dare la stessa importanza a tutti gli elementi. I titoli, i sottotitoli e il corpo del testo devono essere ben distinti.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4">
+                    <div class="w-8 h-8 md:w-10 md:h-10 flex-shrink-0 bg-rose-500 text-white font-bold text-xl rounded-full flex items-center justify-center shadow-lg">❌</div>
+                    <div>
+                        <p class="font-semibold text-lg text-gray-800">Pieghe non allineate</p>
+                        <p class="text-gray-700 mt-1">Le pieghe sono fondamentali. Un design che non tiene conto delle linee di piega risulterà disordinato e poco professionale.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4">
+                    <div class="w-8 h-8 md:w-10 md:h-10 flex-shrink-0 bg-rose-500 text-white font-bold text-xl rounded-full flex items-center justify-center shadow-lg">❌</div>
+                    <div>
+                        <p class="font-semibold text-lg text-gray-800">Messaggio non chiaro</p>
+                        <p class="text-gray-700 mt-1">Non confondere il lettore con troppe informazioni o messaggi contrastanti. Un pieghevole deve avere un obiettivo principale.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4">
+                    <div class="w-8 h-8 md:w-10 md:h-10 flex-shrink-0 bg-rose-500 text-white font-bold text-xl rounded-full flex items-center justify-center shadow-lg">❌</div>
+                    <div>
+                        <p class="font-semibold text-lg text-gray-800">Stampa di bassa qualità</p>
+                        <p class="text-gray-700 mt-1">Anche il design migliore può essere rovinato da una stampa scadente. Assicurati che i colori siano vivaci e i dettagli nitidi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="laboratorio" class="section-content mt-10 p-6 rounded-2xl bg-gray-50 shadow-inner border border-gray-200">
+            <h2 class="text-2xl md:text-3xl font-bold text-orange-700 mb-4">Laboratorio Pratico: Crea il tuo Pieghevole</h2>
+            <p class="text-gray-700 mb-6 leading-relaxed">
+                Nelle scorse settimane abbiamo lavorato per creare un logo. Ora è il momento di metterlo in pratica! Useremo quel logo per progettare il nostro pieghevole a tre ante. Pensa a come le regole d'oro e gli errori da non fare si applicano al tuo lavoro.
+            </p>
+            <p class="text-gray-700 mb-6 leading-relaxed font-bold">
+                Ricorda: lo schema che segue è solo un suggerimento per aiutarti a visualizzare la struttura. Sentiti libero di adattarlo e di sperimentare soluzioni creative.
+            </p>
+            <div class="space-y-4">
+                <p class="font-bold text-lg text-gray-800">📐 Schema tipico pieghevole a 3 ante (fronte/retro):</p>
+                <ul class="list-disc list-inside ml-4 space-y-2 text-gray-700">
+                    <li><span class="font-semibold">Fronte (chiuso)</span>
+                        <ul class="list-disc list-inside ml-6 space-y-1">
+                            <li>Logo + headline</li>
+                            <li>Foto suggestiva</li>
+                        </ul>
+                    </li>
+                    <li><span class="font-semibold">Interno</span>
+                        <ul class="list-disc list-inside ml-6 space-y-1">
+                            <li>Pannello sinistro → Chi siamo</li>
+                            <li>Pannello destro → Attività ed eventi</li>
+                        </ul>
+                    </li>
+                    <li><span class="font-semibold">Retro (ultima anta)</li>
+                        <ul class="list-disc list-inside ml-6 space-y-1">
+                            <li>Contatti</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="mt-8 flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4">
+                <button onclick="showSection('upload-form')" class="bg-orange-100 hover:bg-orange-200 text-orange-700 font-bold py-2 px-4 rounded-full shadow-md transition duration-300 w-full md:w-auto">
+                    Consegna il lavoro
+                </button>
+                <button onclick="showSection('feedback-form')" class="bg-orange-100 hover:bg-orange-200 text-orange-700 font-bold py-2 px-4 rounded-full shadow-md transition duration-300 w-full md:w-auto">
+                    Feedback
+                </button>
+            </div>
+        </section>
+
+        <section id="upload-form" class="section-content p-6 md:p-10 rounded-3xl shadow-lg border border-gray-200">
+            <h2 class="text-2xl md:text-3xl font-semibold text-violet-700 mb-4">Carica il tuo lavoro</h2>
+            <div class="drag-drop-area" id="drag-drop-area">
+                <p class="text-gray-500">Trascina qui il tuo file o clicca per selezionarlo</p>
+                <input type="file" id="file-input" class="hidden">
+            </div>
+            <div id="file-list" class="mt-4 space-y-2"></div>
+            <div class="mt-8 flex justify-center">
+                <button onclick="showSection('laboratorio')" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-full shadow-md transition duration-300">
+                    Torna indietro
+                </button>
+            </div>
+        </section>
+
+        <section id="feedback-form" class="section-content p-6 md:p-10 rounded-3xl shadow-lg border border-gray-200">
+            <h2 class="text-2xl md:text-3xl font-semibold text-lime-700 mb-4">Il tuo feedback per la lezione</h2>
+            <form id="feedback-questions" class="space-y-6">
+                <div>
+                    <label for="feedback-migliorare" class="block text-gray-700 font-medium mb-2">Cosa c'è da migliorare?</label>
+                    <textarea id="feedback-migliorare" rows="4" class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-lime-500 resize-none transition duration-200" placeholder="Scrivi qui i tuoi suggerimenti..."></textarea>
+                </div>
+                <div>
+                    <label for="feedback-piaciuto" class="block text-gray-700 font-medium mb-2">Cosa ti è piaciuto?</label>
+                    <textarea id="feedback-piaciuto" rows="4" class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-lime-500 resize-none transition duration-200" placeholder="Condividi cosa hai trovato utile o interessante..."></textarea>
+                </div>
+                <div>
+                    <label for="feedback-non-piaciuto" class="block text-gray-700 font-medium mb-2">Cosa non ti è piaciuto?</label>
+                    <textarea id="feedback-non-piaciuto" rows="4" class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-lime-500 resize-none transition duration-200" placeholder="Spiega cosa non ha funzionato per te..."></textarea>
+                </div>
+                <div>
+                    <label for="feedback-prossima-volta" class="block text-gray-700 font-medium mb-2">Cosa faresti la prossima volta?</label>
+                    <textarea id="feedback-prossima-volta" rows="4" class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-lime-500 resize-none transition duration-200" placeholder="Quali nuovi argomenti o attività vorresti?"></textarea>
+                </div>
+                <div class="flex justify-between items-center space-x-4 mt-6">
+                    <button type="button" onclick="submitFeedback()" class="bg-lime-600 hover:bg-lime-700 text-white font-bold py-3 px-6 rounded-full shadow-md transition duration-300 w-full md:w-auto">
+                        Invia Feedback
+                    </button>
+                    <button type="button" onclick="showSection('laboratorio')" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-full shadow-md transition duration-300 w-full md:w-auto">
+                        Torna indietro
+                    </button>
+                </div>
+            </form>
+            <div id="feedback-message" class="hidden mt-6 p-4 rounded-lg bg-green-100 text-green-700 text-center font-medium">
+                Grazie per il tuo feedback!
+            </div>
+        </section>
+
+
+    </div>
+
+    <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50 hidden" onclick="closeImageModal()">
+        <div class="relative max-w-screen-lg max-h-screen-lg">
+            <img id="enlarged-image" src="" alt="Esempio di Pieghevole Ingrandito" class="rounded-lg shadow-xl" onclick="event.stopPropagation()">
+            <button onclick="closeImageModal()" class="absolute top-4 right-4 text-white text-3xl font-bold p-2 bg-black bg-opacity-50 rounded-full hover:bg-opacity-75 transition duration-300">&times;</button>
+        </div>
+    </div>
+
+    <div id="error-modal" class="error-modal">
+        <div class="error-modal-content">
+            <span class="close-button" onclick="closeErrorModal()">&times;</span>
+            <h3 class="font-bold text-xl text-red-600 mb-2">Errore riproduzione audio</h3>
+            <p id="error-message" class="text-gray-700"></p>
+        </div>
+    </div>
+
+
+    <script>
+        const colorMap = {
+            'introduzione': 'bg-purple-100',
+            'tipologie': 'bg-blue-100',
+            'regole': 'bg-green-100',
+            'errori': 'bg-red-100',
+            'laboratorio': 'bg-orange-100',
+            'feedback-form': 'bg-lime-100',
+            'upload-form': 'bg-indigo-100' // Nuovo colore per il form di upload
+        };
+        const allColors = Object.values(colorMap);
+        
+        function showSection(sectionId) {
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+
+            const body = document.body;
+            allColors.forEach(color => {
+                body.classList.remove(color);
+            });
+            body.classList.add(colorMap[sectionId]);
+        }
+
+        function playAudio(audioId, buttonId) {
+            const audio = document.getElementById(audioId);
+            const button = document.getElementById(buttonId);
+            
+            document.querySelectorAll('audio').forEach(otherAudio => {
+                if (otherAudio.id !== audioId) {
+                    otherAudio.pause();
+                    const otherButton = document.getElementById(otherAudio.id.replace('audio', 'button'));
+                    if (otherButton) {
+                        otherButton.textContent = 'Ascolta la lezione';
+                    }
+                }
+            });
+
+            if (audio.paused) {
+                try {
+                    audio.play();
+                    button.textContent = 'Metti in pausa';
+                } catch (error) {
+                    showErrorModal("Non è stato possibile avviare la riproduzione. Potrebbe esserci un problema con il file audio o il browser.");
+                    console.error("Errore nella riproduzione dell'audio:", error);
+                }
+            } else {
+                audio.pause();
+                button.textContent = 'Ascolta la lezione';
+            }
+        }
+
+        function openImageModal(imgSrc) {
+            const modal = document.getElementById('image-modal');
+            const enlargedImage = document.getElementById('enlarged-image');
+            enlargedImage.src = imgSrc;
+            modal.classList.remove('hidden');
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('image-modal');
+            modal.classList.add('hidden');
+        }
+
+        function showErrorModal(message) {
+            document.getElementById('error-message').textContent = message;
+            document.getElementById('error-modal').style.display = 'flex';
+        }
+
+        function closeErrorModal() {
+            document.getElementById('error-modal').style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showSection('introduzione');
+            document.body.classList.add('bg-purple-100');
+            // PWA: Registra il Service Worker
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/sw.js').then(registration => {
+                        console.log('Service Worker registrato con successo:', registration);
+                    }).catch(error => {
+                        console.log('Registrazione del Service Worker fallita:', error);
+                    });
+                });
+            }
+        });
+
+        // Funzionalità drag and drop
+        const dragDropArea = document.getElementById('drag-drop-area');
+        const fileInput = document.getElementById('file-input');
+        const fileList = document.getElementById('file-list');
+
+        dragDropArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        dragDropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dragDropArea.classList.add('active');
+        });
+
+        dragDropArea.addEventListener('dragleave', () => {
+            dragDropArea.classList.remove('active');
+        });
+
+        dragDropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dragDropArea.classList.remove('active');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            fileList.innerHTML = '';
+            if (files.length > 0) {
+                for (const file of files) {
+                    const fileItem = document.createElement('div');
+                    fileItem.classList.add('flex', 'items-center', 'space-x-2', 'p-2', 'bg-gray-100', 'rounded-lg');
+                    fileItem.innerHTML = `
+                        <svg class="w-6 h-6 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L14.414 5A2 2 0 0115 6.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 2h2v2H6V6zm0 4h2v2H6v-2zm0 4h2v2H6v-2zm4-8h2v2h-2V6zm0 4h2v2h-2v-2zm0 4h2v2h-2v-2z" clip-rule="evenodd"></path></svg>
+                        <span class="text-sm font-medium text-gray-700">${file.name}</span>
+                        <span class="text-xs text-gray-500 ml-auto">${(file.size / 1024).toFixed(2)} KB</span>
+                    `;
+                    fileList.appendChild(fileItem);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
