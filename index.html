@@ -7,6 +7,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
@@ -70,14 +74,11 @@
 <body class="p-6 md:p-12 transition-colors duration-500">
     <div class="max-w-6xl mx-auto bg-white p-6 md:p-10 rounded-3xl shadow-lg border border-gray-200">
 
-        <!-- Intestazione -->
         <header class="text-center mb-10">
             <h1 class="text-3xl md:text-5xl font-bold text-black mb-2">I Pieghevoli</h1>
         </header>
 
-        <!-- Menu di Navigazione -->
         <nav class="mb-8">
-            <!-- Lista delle voci di menu, sempre visibile -->
             <ul id="mobile-menu" class="flex md:flex md:flex-row flex-col justify-center space-y-2 md:space-y-0 md:space-x-4">
                 <li><button onclick="showSection('introduzione')" class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300 w-full">Introduzione</button></li>
                 <li><button onclick="showSection('tipologie')" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300 w-full">Diverse tipologie</button></li>
@@ -87,9 +88,6 @@
             </ul>
         </nav>
 
-        <!-- Contenuto delle sezioni -->
-
-        <!-- Sezione: Introduzione -->
         <section id="introduzione" class="section-content p-6 md:p-10 rounded-3xl shadow-lg border border-gray-200">
             <h2 class="text-2xl md:text-3xl font-semibold text-purple-700 mb-4">Cosa sono i Pieghevoli?</h2>
             <div class="flex flex-col md:flex-row items-center md:items-start md:space-x-8">
@@ -119,7 +117,6 @@
             </div>
         </section>
 
-        <!-- Sezione: Le diverse tipologie -->
         <section id="tipologie" class="section-content p-6 md:p-10 rounded-3xl shadow-lg border border-gray-200">
             <h2 class="text-2xl md:text-3xl font-semibold text-blue-700 mb-4">Le diverse tipologie</h2>
             <div class="flex flex-col md:flex-row items-center md:items-start md:space-x-8">
@@ -152,7 +149,6 @@
             </div>
         </section>
 
-        <!-- Sezione: Le Regole d'Oro -->
         <section id="regole" class="section-content p-6 rounded-2xl shadow-inner border border-green-200">
             <h3 class="text-xl md:text-2xl font-bold text-green-700 mb-4">Le Regole d'Oro per la Realizzazione</h3>
             <ol class="list-decimal list-outside ml-6 space-y-4 text-gray-700">
@@ -165,7 +161,6 @@
             </ol>
         </section>
 
-        <!-- Sezione: 5 Errori da Non Fare -->
         <section id="errori" class="section-content p-6 rounded-2xl shadow-inner border border-gray-200">
             <h3 class="text-xl md:text-2xl font-bold text-red-700 mb-6">5 Errori da Non Fare</h3>
             <div class="space-y-6">
@@ -207,7 +202,6 @@
             </div>
         </section>
 
-        <!-- Sezione: Laboratorio Pratico -->
         <section id="laboratorio" class="section-content mt-10 p-6 rounded-2xl bg-gray-50 shadow-inner border border-gray-200">
             <h2 class="text-2xl md:text-3xl font-bold text-orange-700 mb-4">Laboratorio Pratico: Crea il tuo Pieghevole</h2>
             <p class="text-gray-700 mb-6 leading-relaxed">
@@ -248,7 +242,6 @@
             </div>
         </section>
 
-        <!-- Sezione: Caricamento Lavoro -->
         <section id="upload-form" class="section-content p-6 md:p-10 rounded-3xl shadow-lg border border-gray-200">
             <h2 class="text-2xl md:text-3xl font-semibold text-violet-700 mb-4">Carica il tuo lavoro</h2>
             <div class="drag-drop-area" id="drag-drop-area">
@@ -263,7 +256,6 @@
             </div>
         </section>
 
-        <!-- Sezione: Modulo Feedback -->
         <section id="feedback-form" class="section-content p-6 md:p-10 rounded-3xl shadow-lg border border-gray-200">
             <h2 class="text-2xl md:text-3xl font-semibold text-lime-700 mb-4">Il tuo feedback per la lezione</h2>
             <form id="feedback-questions" class="space-y-6">
@@ -300,7 +292,6 @@
 
     </div>
 
-    <!-- Modale per l'ingrandimento dell'immagine -->
     <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50 hidden" onclick="closeImageModal()">
         <div class="relative max-w-screen-lg max-h-screen-lg">
             <img id="enlarged-image" src="" alt="Esempio di Pieghevole Ingrandito" class="rounded-lg shadow-xl" onclick="event.stopPropagation()">
@@ -308,7 +299,6 @@
         </div>
     </div>
 
-    <!-- Modale per messaggi di errore -->
     <div id="error-modal" class="error-modal">
         <div class="error-modal-content">
             <span class="close-button" onclick="closeErrorModal()">&times;</span>
@@ -318,7 +308,6 @@
     </div>
 
 
-    <!-- Script JavaScript per i pulsanti audio e la visualizzazione delle sezioni -->
     <script>
         const colorMap = {
             'introduzione': 'bg-purple-100',
@@ -396,6 +385,16 @@
         document.addEventListener('DOMContentLoaded', () => {
             showSection('introduzione');
             document.body.classList.add('bg-purple-100');
+            // PWA: Registra il Service Worker
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/sw.js').then(registration => {
+                        console.log('Service Worker registrato con successo:', registration);
+                    }).catch(error => {
+                        console.log('Registrazione del Service Worker fallita:', error);
+                    });
+                });
+            }
         });
 
         // Funzionalità drag and drop
