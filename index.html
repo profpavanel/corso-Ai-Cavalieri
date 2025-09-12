@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
     
     <link rel="manifest" href="manifest.json">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#c53030">
     
     <style>
         body {
@@ -387,11 +387,10 @@
             document.body.classList.add('bg-purple-100');
             // PWA: Registra il Service Worker
             if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
-                    navigator.serviceWorker.register('/sw.js').then(registration => {
-                        console.log('Service Worker registrato con successo:', registration);
-                    }).catch(error => {
-                        console.log('Registrazione del Service Worker fallita:', error);
+              navigator.serviceWorker.register('service-worker.js')
+                .then(() => console.log("Service Worker registrato"))
+                .catch(err => console.error("Errore SW:", err));
+                        }
                     });
                 });
             }
@@ -443,3 +442,4 @@
     </script>
 </body>
 </html>
+
